@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "jira-cli"
+name = "pyjira"
 version = "0.1.0"
 description = "A command-line interface for interacting with Jira"
 authors = ["Kevin Wong <kevinchwong@gmail.com>"]
@@ -8,7 +8,7 @@ license = "MIT"
 homepage = "https://github.com/kevinchwong/pyjira"
 repository = "https://github.com/kevinchwong/pyjira.git"
 documentation = "https://github.com/kevinchwong/pyjira#readme"
-packages = [{include = "jira_cli"}]
+packages = [{include = "pyjira"}]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Console",
@@ -40,7 +40,7 @@ isort = "^5.0.0"
 mypy = "^0.900"
 
 [tool.poetry.scripts]
-jira = "jira_cli.cli:cli"
+jira = "pyjira.cli:cli"
 
 [build-system]
 requires = ["poetry-core"]
@@ -51,7 +51,7 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = """
     -v
-    --cov=jira_cli
+    --cov=pyjira
     --cov-report=term-missing
     -p no:warnings
 """

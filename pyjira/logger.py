@@ -6,7 +6,7 @@ It creates a logger that writes to both a file and optionally to the console in 
 
 The logger is configured to:
 - Write logs to ~/.jira/logs/jira-cli.log
-- Use DEBUG level when JIRA_CLI_DEBUG environment variable is set
+- Use DEBUG level when PY_JIRA_DEBUG environment variable is set
 - Use INFO level by default
 - Include timestamp, logger name, and log level in messages
 """
@@ -41,11 +41,11 @@ def setup_logger() -> logging.Logger:
     
     # Configure logging
     logging.basicConfig(
-        level=logging.DEBUG if os.getenv('JIRA_CLI_DEBUG') else logging.INFO,
+        level=logging.DEBUG if os.getenv('PY_JIRA_DEBUG') else logging.INFO,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         handlers=[
             logging.FileHandler(str(log_file)),
-            logging.StreamHandler() if os.getenv('JIRA_CLI_DEBUG') else logging.NullHandler()
+            logging.StreamHandler() if os.getenv('PY_JIRA_DEBUG') else logging.NullHandler()
         ]
     )
     

@@ -10,7 +10,7 @@ jira-cli/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml
-├── jira_cli/
+├── pyjira/
 │   ├── __init__.py
 │   ├── cli.py
 │   ├── client.py

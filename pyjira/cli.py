@@ -31,7 +31,7 @@ def get_alias_command(alias_name: str) -> Optional[str]:
 def cli(ctx: Context, debug: bool) -> None:
     """Jira CLI - Command line interface for Jira"""
     if debug:
-        os.environ['JIRA_CLI_DEBUG'] = 'true'
+        os.environ['PY_JIRA_DEBUG'] = 'true'
     
     if ctx.invoked_subcommand is None:
         click.echo(ctx.get_help())
@@ -479,7 +479,7 @@ def list(query: str = '', status: Optional[str] = None, assignee: Optional[str] 
         exit(1)
     except Exception as e:
         console.print(f"[red]An unexpected error occurred: {str(e)}[/red]")
-        if os.getenv('JIRA_CLI_DEBUG'):
+        if os.getenv('PY_JIRA_DEBUG'):
             raise
         exit(1)
 

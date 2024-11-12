@@ -11,53 +11,39 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.12"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
-    
+        
     - name: Install Poetry
-      uses: snok/install-poetry@v1
-    
-    - name: Install dependencies
-      run: poetry install
-    
-    - name: Run tests
-      run: poetry run pytest
-    
-    - name: Check style
       run: |
-        poetry run flake8
-        poetry run black --check .
-    
-    - name: Type check
-      run: poetry run mypy .
+        curl -sSL https://install.python-poetry.org | python3 -
 
-  publish:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
-    steps:
-    - uses: actions/checkout@v2
-    
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: "3.12"
-    
-    - name: Install Poetry
-      uses: snok/install-poetry@v1
-    
-    - name: Build and publish
-      env:
-        PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+    - name: Install dependencies
       run: |
-        poetry config pypi-token.pypi $PYPI_TOKEN
-        poetry build
-        poetry publish 
+        poetry install
+
+    - name: Run linting
+      run: |
+        poetry run black --check pyjira/
+        poetry run isort --check-only pyjira/
+        
+    - name: Run type checking
+      run: |
+        poetry run mypy pyjira/
+
+    - name: Run tests
+      run: |
+        poetry run pytest tests/ -v --cov=pyjira --cov-report=xml
+        
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: true

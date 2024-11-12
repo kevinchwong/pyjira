@@ -1,6 +1,6 @@
 import pytest
 from click.testing import CliRunner
-from jira_cli.cli import cli
+from pyjira.cli import cli
 import os
 from dotenv import load_dotenv
 import time

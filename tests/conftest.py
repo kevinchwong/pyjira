@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import MagicMock
-from jira_cli.client import JiraClient
-from jira_cli.formatters import IssueFormatter
+from pyjira.client import JiraClient
+from pyjira.formatters import IssueFormatter
 from rich.table import Table
 
 @pytest.fixture
@@ -42,7 +42,7 @@ def mock_jira(monkeypatch):
         return mock_formatter
     
     # Patch at module level where the classes are imported
-    monkeypatch.setattr('jira_cli.client.JiraClient.__new__', mock_client_factory)
-    monkeypatch.setattr('jira_cli.formatters.IssueFormatter.__new__', mock_formatter_factory)
+    monkeypatch.setattr('pyjira.client.JiraClient.__new__', mock_client_factory)
+    monkeypatch.setattr('pyjira.formatters.IssueFormatter.__new__', mock_formatter_factory)
     
     return mock_client

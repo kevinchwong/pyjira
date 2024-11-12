@@ -1,6 +1,6 @@
 from click.testing import CliRunner
-from jira_cli.cli import cli
-from jira_cli.exceptions import JiraCliError
+from pyjira.cli import cli
+from pyjira.exceptions import JiraCliError
 
 def test_list_basic(mock_jira):
     """Test basic list command without filters"""
@@ -15,7 +15,7 @@ def test_list_basic(mock_jira):
     print(f"Output: {result.output}")
     
     assert result.exit_code == 0
-    mock_jira.search_issues.assert_called_once_with('assignee = currentUser()')
+    mock_jira.search_issues.assert_called_once_with('project = DATA')
 
 def test_list_with_project(mock_jira):
     """Test list command with project filter"""
@@ -37,7 +37,7 @@ def test_list_with_status(mock_jira):
     
     result = runner.invoke(cli, ['list', '--status', 'In Progress'])
     assert result.exit_code == 0
-    mock_jira.search_issues.assert_called_once_with("status = 'In Progress'")
+    mock_jira.search_issues.assert_called_once_with("project = DATA AND status = 'In Progress'")
 
 def test_my_command(mock_jira):
     """Test my command without filters"""
@@ -48,7 +48,7 @@ def test_my_command(mock_jira):
     
     result = runner.invoke(cli, ['my'])
     assert result.exit_code == 0
-    mock_jira.search_issues.assert_called_once_with('assignee = currentUser()')
+    mock_jira.search_issues.assert_called_once_with('project = DATA AND assignee = currentUser()')
 
 def test_my_command_with_status(mock_jira):
     """Test my command with status filter"""
@@ -59,7 +59,7 @@ def test_my_command_with_status(mock_jira):
     
     result = runner.invoke(cli, ['my', '--status', 'To Do'])
     assert result.exit_code == 0
-    mock_jira.search_issues.assert_called_once_with("assignee = currentUser() AND status = 'To Do'")
+    mock_jira.search_issues.assert_called_once_with("project = DATA AND assignee = currentUser() AND status = 'To Do'")
 
 def test_list_with_multiple_filters(mock_jira):
     """Test list command with multiple filters"""
@@ -84,4 +84,4 @@ def test_list_no_results(mock_jira):
     result = runner.invoke(cli, ['list'])
     assert result.exit_code == 1
     assert 'No issues found' in result.output
-    mock_jira.search_issues.assert_called_once_with('assignee = currentUser()')
+    mock_jira.search_issues.assert_called_once_with('project = DATA')
