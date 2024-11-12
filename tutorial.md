@@ -48,7 +48,7 @@ poetry install
 2. Configure Python environment:
 ```bash
 # Set Python version
-poetry env use python3.12
+poetry env use python3.8
 # Activate the virtual environment
 poetry shell
 ```

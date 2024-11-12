@@ -1,20 +1,66 @@
 [tool.poetry]
-name = "jira-cli"
+name = "jira-cli-tool"
 version = "1.0.0"
-description = "Command line interface for Jira"
-authors = ["Kevin <kevinchwong@gmail.com>"]
+description = "A powerful command-line interface for Jira"
+authors = ["Kevin Wong <kevinchwong@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/kevinchwong/jira-cli"
+repository = "https://github.com/kevinchwong/jira-cli"
+documentation = "https://github.com/kevinchwong/jira-cli/blob/main/docs/tutorial.md"
+keywords = ["jira", "cli", "automation", "project-management"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business",
+    "Topic :: Software Development :: Bug Tracking",
+]
+packages = [{include = "jira_cli"}]
 
 [tool.poetry.dependencies]
-python = "^3.12"
-click = "^8.1.0"
-jira = "^3.5.1"
-pyyaml = "^6.0.1"
+python = "^3.8"
+click = "^8.0.0"
+jira = "^3.5.0"
+rich = "^13.0.0"
 python-dotenv = "^1.0.0"
-rich = "^13.7.0"
+pyyaml = "^6.0.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0.0"
+pytest-cov = "^4.0.0"
+black = "^23.12.1"
+isort = "^5.13.2"
+mypy = "^1.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 jira = "jira_cli.cli:cli"
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api" 
+[tool.black]
+line-length = 100
+target-version = ['py38']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 100
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true 
