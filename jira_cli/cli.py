@@ -414,7 +414,17 @@ def log(issue_key: str, time: str, comment: Optional[str] = None) -> None:
 @click.option('--status', default=None, help='Filter by status')
 @click.option('--assignee', default=None, help='Filter by assignee (use "currentUser()" for yourself)')
 @click.option('--project', default=None, help='Filter by project key')
-def list(query: str = '', status: Optional[str] = None, assignee: Optional[str] = None, project: Optional[str] = None) -> None:
+@click.option('--type', default=None, help='Filter by issue type')
+@click.option('--priority', default=None, help='Filter by priority')
+@click.option('--reporter', default=None, help='Filter by reporter')
+@click.option('--component', default=None, help='Filter by component')
+@click.option('--labels', default=None, help='Filter by labels (comma-separated)')
+@click.option('--created-after', default=None, help='Filter by creation date (YYYY-MM-DD)')
+@click.option('--updated-after', default=None, help='Filter by update date (YYYY-MM-DD)')
+def list(query: str = '', status: Optional[str] = None, assignee: Optional[str] = None, 
+        project: Optional[str] = None, type: Optional[str] = None, priority: Optional[str] = None,
+        reporter: Optional[str] = None, component: Optional[str] = None, labels: Optional[str] = None,
+        created_after: Optional[str] = None, updated_after: Optional[str] = None) -> None:
     """List issues using JQL. If no JQL provided, uses filters or shows all assigned issues."""
     try:
         client = JiraClient()
@@ -431,6 +441,21 @@ def list(query: str = '', status: Optional[str] = None, assignee: Optional[str] 
             conditions.append(f"assignee = {assignee}")
         if status:
             conditions.append(f"status = '{status}'")
+        if type:
+            conditions.append(f"issuetype = '{type}'")
+        if priority:
+            conditions.append(f"priority = '{priority}'")
+        if reporter:
+            conditions.append(f"reporter = {reporter}")
+        if component:
+            conditions.append(f"component = '{component}'")
+        if labels:
+            label_list = [f"'{label.strip()}'" for label in labels.split(',')]
+            conditions.append(f"labels in ({', '.join(label_list)})")
+        if created_after:
+            conditions.append(f"created >= '{created_after}'")
+        if updated_after:
+            conditions.append(f"updated >= '{updated_after}'")
         
         # If query is provided, use it as a condition
         if query:
@@ -444,7 +469,7 @@ def list(query: str = '', status: Optional[str] = None, assignee: Optional[str] 
         issues = client.search_issues(jql)
         if not issues:
             console.print("[yellow]No issues found matching the criteria[/yellow]")
-            return
+            exit(1)
         
         formatter = IssueFormatter()
         table = formatter.format_issue_list(issues)

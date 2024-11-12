@@ -21,10 +21,8 @@ wheels/
 *.egg
 
 # Virtual Environment
-.env
-.venv
-env/
 venv/
+env/
 ENV/
 
 # IDE
@@ -33,10 +31,18 @@ ENV/
 *.swp
 *.swo
 
+# Environment variables
+.env
+
+# Jira config
+.jira/
+config.yaml
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
 # Logs
 *.log
-logs/
-.jira/logs/
-
-# Local config
-.jira/config.yaml
