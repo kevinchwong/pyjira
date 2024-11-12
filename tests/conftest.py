@@ -7,8 +7,19 @@ from rich.table import Table
 @pytest.fixture
 def mock_jira(monkeypatch):
     """Create a mock JIRA client"""
-    # Create the mock
-    mock = MagicMock()
+    # Create a mock client instance
+    mock_client = MagicMock(spec=JiraClient)
+    
+    # Set up default return values
+    mock_client.search_issues.return_value = []
+    mock_client.get_field_map.return_value = {}
+    mock_client.get_issue.return_value = {
+        'key': 'TEST-123',
+        'fields': {
+            'summary': 'Test Issue',
+            'status': {'name': 'In Progress'}
+        }
+    }
     
     # Create a real Rich table for the formatter to return
     table = Table()
@@ -18,20 +29,20 @@ def mock_jira(monkeypatch):
     table.add_column("Priority")
     table.add_row("TEST-1", "Test Issue", "In Progress", "High")
     
-    # Mock the IssueFormatter class
-    mock_formatter = MagicMock()
+    # Mock the formatter
+    mock_formatter = MagicMock(spec=IssueFormatter)
     mock_formatter.format_issue_list.return_value = table
+    mock_formatter.format_issue.return_value = table
     
-    # Mock the IssueFormatter class to return our mock formatter instance
-    def mock_formatter_class(*args, **kwargs):
+    # Create factory functions that return our mock instances
+    def mock_client_factory(*args, **kwargs):
+        return mock_client
+        
+    def mock_formatter_factory(*args, **kwargs):
         return mock_formatter
     
-    # Patch both JiraClient and IssueFormatter
-    monkeypatch.setattr(JiraClient, '__new__', lambda cls: mock)
-    monkeypatch.setattr(IssueFormatter, '__new__', mock_formatter_class)
+    # Patch at module level where the classes are imported
+    monkeypatch.setattr('jira_cli.client.JiraClient.__new__', mock_client_factory)
+    monkeypatch.setattr('jira_cli.formatters.IssueFormatter.__new__', mock_formatter_factory)
     
-    # Mock all required methods
-    mock.search_issues = MagicMock(return_value=[])
-    mock.get_field_map = MagicMock(return_value={})
-    
-    return mock 
+    return mock_client
