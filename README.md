@@ -40,20 +40,20 @@ JIRA_DEFAULT_PROJECT=PROJ      # Optional: Your default project
 poetry shell
 
 # List your assigned issues
-jira my
+pyjira my
 
 # List issues with filters
-jira list \
+pyjira list \
   --project PROJ \
   --status "In Progress" \
   --type Task \
   --priority High
 
 # View issue details
-jira view PROJ-123
+pyjira view PROJ-123
 
 # Advanced filtering
-jira list \
+pyjira list \
   --project PROJ \
   --status "In Progress" \
   --type Bug \
@@ -85,12 +85,12 @@ Filter issues using multiple criteria:
 
 ### View Command
 ```bash
-jira view ISSUE-KEY
+pyjira view ISSUE-KEY
 ```
 
 ### My Issues
 ```bash
-jira my [--status STATUS]
+pyjira my [--status STATUS]
 ```
 
 ## Development

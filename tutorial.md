@@ -56,7 +56,7 @@ poetry shell
 3. Verify installation:
 ```bash
 # Check if CLI is properly installed
-jira --version
+pyjira --version
 ```
 
 ## Basic Commands
@@ -64,80 +64,80 @@ jira --version
 ### 1. View Issues
 ```bash
 # View a specific issue
-jira view DATA-2904
+pyjira view DATA-2904
 
 # View in different formats
-jira view DATA-2904 --format json
-jira view DATA-2904 --format markdown
+pyjira view DATA-2904 --format json
+pyjira view DATA-2904 --format markdown
 
 # List your assigned issues
-jira list
+pyjira list
 
 # List with filters
-jira list --project DATA --status "In Progress"
-jira list --assignee currentUser() --status "To Do"
+pyjira list --project DATA --status "In Progress"
+pyjira list --assignee currentUser() --status "To Do"
 
 # List using JQL
-jira list "project = DATA AND priority = High"
+pyjira list "project = DATA AND priority = High"
 ```
 
 ### 2. Create Issues
 ```bash
 # Basic creation
-jira create --project DATA --summary "New feature request" --description "Details here"
+pyjira create --project DATA --summary "New feature request" --description "Details here"
 
 # With custom fields
-jira create --project DATA \
+pyjira create --project DATA \
     --summary "Bug fix" \
     --custom-field "customfield_10000=5" \
     --custom-field "customfield_10001=High"
 
 # Using templates
-jira create --template bug --project DATA --summary "Login error"
-jira create --template feature --project DATA --summary "User profile"
+pyjira create --template bug --project DATA --summary "Login error"
+pyjira create --template feature --project DATA --summary "User profile"
 ```
 
 ### 3. Update Issues
 ```bash
 # Update status
-jira update DATA-2904 --status "In Progress"
+pyjira update DATA-2904 --status "In Progress"
 
 # Update multiple fields
-jira update DATA-2904 \
+pyjira update DATA-2904 \
     --assignee "john.doe" \
     --priority "High" \
     --labels "urgent,critical"
 
 # Add comment
-jira comment DATA-2904 "Work in progress"
+pyjira comment DATA-2904 "Work in progress"
 
 # Add attachments
-jira attach DATA-2904 ./screenshot.png ./logs.txt
+pyjira attach DATA-2904 ./screenshot.png ./logs.txt
 
 # Log work
-jira log DATA-2904 --time "3h 30m" --comment "Code review"
+pyjira log DATA-2904 --time "3h 30m" --comment "Code review"
 ```
 
 ### 4. Transitions
 ```bash
 # List available transitions
-jira transitions DATA-2904
+pyjira transitions DATA-2904
 
 # Transition issue
-jira transition DATA-2904 "In Progress"
-jira transition DATA-2904 "Done" --resolution "Fixed"
+pyjira transition DATA-2904 "In Progress"
+pyjira transition DATA-2904 "Done" --resolution "Fixed"
 ```
 
 ### 5. Field Information
 ```bash
 # List all fields
-jira fields
+pyjira fields
 
 # List custom fields only
-jira fields --issue DATA-2904 --custom-only
+pyjira fields --issue DATA-2904 --custom-only
 
 # Show field values for an issue
-jira fields --issue DATA-2904 --with-values
+pyjira fields --issue DATA-2904 --with-values
 ```
 
 ## Advanced Usage
@@ -145,10 +145,10 @@ jira fields --issue DATA-2904 --with-values
 ### 1. Bulk Operations
 ```bash
 # Update multiple issues
-jira bulk-update "project = DATA AND status = 'To Do'" --status "In Progress"
+pyjira bulk-update "project = DATA AND status = 'To Do'" --status "In Progress"
 
 # With confirmation and batch size
-jira bulk-update "project = DATA" \
+pyjira bulk-update "project = DATA" \
     --status "Done" \
     --batch-size 10 \
     --yes
@@ -157,34 +157,34 @@ jira bulk-update "project = DATA" \
 ### 2. Issue Links
 ```bash
 # Create issue link
-jira link DATA-2904 --link-type "blocks" DATA-456
+pyjira link DATA-2904 --link-type "blocks" DATA-456
 ```
 
 ### 3. Watchers
 ```bash
 # Add yourself as watcher
-jira watch DATA-2904
+pyjira watch DATA-2904
 
 # Remove yourself
-jira watch DATA-2904 --unwatch
+pyjira watch DATA-2904 --unwatch
 ```
 
 ### 4. Sprint Management
 ```bash
 # List sprints
-jira sprint list --board BOARD-1
+pyjira sprint list --board BOARD-1
 
 # Create sprint
-jira sprint create --board BOARD-1 --name "Sprint 1" --start-date "2024-01-01"
+pyjira sprint create --board BOARD-1 --name "Sprint 1" --start-date "2024-01-01"
 
 # Add issues to sprint
-jira sprint add SPRINT-1 DATA-2904 DATA-456
+pyjira sprint add SPRINT-1 DATA-2904 DATA-456
 ```
 
 ### 5. Velocity Metrics
 ```bash
 # View board velocity
-jira velocity BOARD-1 --days 30
+pyjira velocity BOARD-1 --days 30
 ```
 
 ## Custom Configurations
@@ -200,9 +200,9 @@ aliases:
 
 Use aliases:
 ```bash
-jira my
-jira todo
-jira bugs
+pyjira my
+pyjira todo
+pyjira bugs
 ```
 
 ### 2. Templates
@@ -232,5 +232,5 @@ fields:
 
 ### 3. Template Issues
 - Ensure template files are valid YAML
-- Check field IDs using `jira fields`
+- Check field IDs using `pyjira fields`
 - Verify issue type exists in your Jira instance

@@ -40,7 +40,7 @@ isort = "^5.0.0"
 mypy = "^0.900"
 
 [tool.poetry.scripts]
-jira = "pyjira.cli:cli"
+pyjira = "pyjira.cli:cli"
 
 [build-system]
 requires = ["poetry-core"]

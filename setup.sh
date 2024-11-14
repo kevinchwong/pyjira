@@ -27,6 +27,8 @@ if ! poetry install; then
     poetry install --sync
 fi
 
+poetry shell
+
 # Verify key dependencies
 echo -e "${GREEN}Verifying dependencies...${NC}"
 poetry run python -c "import yaml; import jira; import click; import rich" || {
@@ -59,5 +61,7 @@ echo -e "${GREEN}Setup complete!${NC}"
 echo -e "${YELLOW}Next steps:"
 echo "1. Edit .env with your Jira credentials"
 echo "2. Run 'poetry shell' to activate the virtual environment"
-echo "3. Try 'jira --help' to see available commands"
+echo "3. Try 'pyjira --help' to see available commands"
 echo -e "4. Run 'poetry run pytest tests/test_cli.py -v' to verify tests${NC}"
+
+echo "Installation complete! Try running 'pyjira --help' to get started."
